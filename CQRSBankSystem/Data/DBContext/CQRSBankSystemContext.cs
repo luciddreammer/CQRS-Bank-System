@@ -12,5 +12,6 @@ namespace CQRSBankSystem.Data.DBContext
 
         public DbSet<Event> Events { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<MoneyTransfer> MoneyTransfers { get; set; }
     }
 }

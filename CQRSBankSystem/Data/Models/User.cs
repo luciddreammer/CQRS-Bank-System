@@ -13,6 +13,5 @@
         public int AccountNumber { get; set; }
         public double Balance { get; set; }
         public double SessionId { get; set; }
-        public List<Event> Events { get; set; }
     }
 }

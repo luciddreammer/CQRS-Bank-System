@@ -1,6 +1,7 @@
 ﻿using CQRSBankSystem.Data.DBContext;
 using CQRSBankSystem.Data.Models;
 using CQRSBankSystem.Data.ViewModels;
+using System.Reflection.Metadata.Ecma335;
 
 namespace CQRSBankSystem.Services
 {
@@ -28,19 +29,25 @@ namespace CQRSBankSystem.Services
         public void LogoutUser()
         {
             var cookie_Id = _httpContextAccessor.HttpContext.Request.Cookies["Session_Id"];
-            var cookieString = cookie_Id.ToString();
-            try
+            if(cookie_Id != null)
             {
-                var currentUser = _context.Users.FirstOrDefault(l => l.SessionId == double.Parse(cookie_Id));
-                currentUser.SessionId = 0;
-                _context.Update(currentUser);
-                _context.SaveChanges();
-            }
-            catch
-            {
+                var cookieString = cookie_Id.ToString();
+                try
+                {
+                    var currentUser = _context.Users.FirstOrDefault(l => l.SessionId == double.Parse(cookie_Id));
+                    if (currentUser != null)
+                    {
+                        currentUser.SessionId = 0;
+                        _context.Update(currentUser);
+                        _context.SaveChanges();
+                    }
+                }
+                catch
+                {
+                    _httpContextAccessor.HttpContext.Response.Cookies.Delete("Session_Id");
+                }
                 _httpContextAccessor.HttpContext.Response.Cookies.Delete("Session_Id");
             }
-            _httpContextAccessor.HttpContext.Response.Cookies.Delete("Session_Id");
         }
 
         public void CreateCookie(User user)

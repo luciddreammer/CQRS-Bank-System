@@ -4,6 +4,7 @@ using CQRSBankSystem.Data.DBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CQRSBankSystem.Migrations
 {
     [DbContext(typeof(CQRSBankSystemContext))]
-    partial class CQRSBankSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20220915170034_ReasonOfCancelation repair")]
+    partial class ReasonOfCancelationrepair
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,10 +32,10 @@ namespace CQRSBankSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<double?>("Ammount")
+                    b.Property<double>("Ammount")
                         .HasColumnType("float");
 
-                    b.Property<int?>("From")
+                    b.Property<int>("FromId")
                         .HasColumnType("int");
 
                     b.Property<string>("ReasonOfCancellation")
@@ -43,44 +45,21 @@ namespace CQRSBankSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("To")
+                    b.Property<int>("ToId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TypeOfOperation")
+                    b.Property<string>("TypeOfOperation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Events");
-                });
-
-            modelBuilder.Entity("CQRSBankSystem.Data.Models.MoneyTransfer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<double?>("Ammount")
-                        .HasColumnType("float");
-
-                    b.Property<int>("From")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ReasonOfCancellation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("To")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MoneyTransfers");
                 });
 
             modelBuilder.Entity("CQRSBankSystem.Data.Models.User", b =>
@@ -131,6 +110,20 @@ namespace CQRSBankSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("CQRSBankSystem.Data.Models.Event", b =>
+                {
+                    b.HasOne("CQRSBankSystem.Data.Models.User", "User")
+                        .WithMany("Events")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CQRSBankSystem.Data.Models.User", b =>
+                {
+                    b.Navigation("Events");
                 });
 #pragma warning restore 612, 618
         }

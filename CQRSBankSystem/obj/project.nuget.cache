@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "XoIMGGVJ3RDhQyZ7371Pk6mLjH/vLrfam8Syo78iWsX7lYWp6Np8FVRf1hcUGudA/1WIi4OnWI945q08IvQv1A==",
+  "dgSpecHash": "i3mSvs5d/nXTiQh6ZW3+st/7oGS/6JmoFNHi1osS+oVfPRlQErU1hkHN50WwvTzbj3t8oxHnJIzWYNFM6uVEeQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Szymon\\Desktop\\CQRS BankSystem\\CQRSBankSystem\\CQRSBankSystem\\CQRSBankSystem.csproj",
+  "projectFilePath": "C:\\Users\\Szymon\\Desktop\\Programowanie\\.net\\CQRSBankSystem\\CQRSBankSystem\\CQRSBankSystem\\CQRSBankSystem.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Szymon\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Szymon\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",

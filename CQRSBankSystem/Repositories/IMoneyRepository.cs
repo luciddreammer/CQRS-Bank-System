@@ -6,9 +6,9 @@ namespace CQRSBankSystem.Repositories
 {
     public interface IMoneyRepository
     {
-        bool DoubleVerification(Event singleEvent);
-        void TransferMoney(Event singleEvent);
-        bool BalanceCheck(Event singleEvent);
-        void StatusChange(Event singleEvent);
+        Event NewMoneyTransfer();
+        bool DoubleVerification(Event singleEvent, MoneyTransfer newMoneyTransfer);
+        void TransferMoney(Event singleEvent, MoneyTransfer newMoneyTransfer);
+        void StatusChange(Event singleEvent, MoneyTransfer newMoneyTransfer);
     }
 }
