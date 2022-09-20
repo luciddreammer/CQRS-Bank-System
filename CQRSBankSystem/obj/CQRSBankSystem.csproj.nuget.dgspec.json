@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Szymon\\Desktop\\Programowanie\\.net\\CQRSBankSystem\\CQRSBankSystem\\CQRSBankSystem\\CQRSBankSystem.csproj": {}
+    "C:\\Users\\Szymon\\Desktop\\Programowanie\\dotNET\\CQRSBankSystem\\CQRSBankSystem\\CQRSBankSystem\\CQRSBankSystem.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Szymon\\Desktop\\Programowanie\\.net\\CQRSBankSystem\\CQRSBankSystem\\CQRSBankSystem\\CQRSBankSystem.csproj": {
+    "C:\\Users\\Szymon\\Desktop\\Programowanie\\dotNET\\CQRSBankSystem\\CQRSBankSystem\\CQRSBankSystem\\CQRSBankSystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Szymon\\Desktop\\Programowanie\\.net\\CQRSBankSystem\\CQRSBankSystem\\CQRSBankSystem\\CQRSBankSystem.csproj",
+        "projectUniqueName": "C:\\Users\\Szymon\\Desktop\\Programowanie\\dotNET\\CQRSBankSystem\\CQRSBankSystem\\CQRSBankSystem\\CQRSBankSystem.csproj",
         "projectName": "CQRSBankSystem",
-        "projectPath": "C:\\Users\\Szymon\\Desktop\\Programowanie\\.net\\CQRSBankSystem\\CQRSBankSystem\\CQRSBankSystem\\CQRSBankSystem.csproj",
+        "projectPath": "C:\\Users\\Szymon\\Desktop\\Programowanie\\dotNET\\CQRSBankSystem\\CQRSBankSystem\\CQRSBankSystem\\CQRSBankSystem.csproj",
         "packagesPath": "C:\\Users\\Szymon\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Szymon\\Desktop\\Programowanie\\.net\\CQRSBankSystem\\CQRSBankSystem\\CQRSBankSystem\\obj\\",
+        "outputPath": "C:\\Users\\Szymon\\Desktop\\Programowanie\\dotNET\\CQRSBankSystem\\CQRSBankSystem\\CQRSBankSystem\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\MSV\\Tools\\NuGetPackages"

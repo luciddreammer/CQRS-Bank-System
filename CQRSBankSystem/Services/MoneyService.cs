@@ -19,9 +19,9 @@ namespace CQRSBankSystem.Services
 
         }
 
-        public void NewMoneyTransfer()
+        public void NewMoneyTransfer(Event newData)
         {
-            var newEvent = _moneyRepository.NewMoneyTransfer();
+            var newEvent = _moneyRepository.NewMoneyTransfer(newData);
             var newMoneyTransfer = EventToTranfer(newEvent);
             if (newEvent==null)
             {

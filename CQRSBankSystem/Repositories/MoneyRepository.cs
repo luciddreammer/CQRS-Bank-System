@@ -15,9 +15,8 @@ namespace CQRSBankSystem.Repositories
             _httpContextAccessor = httpContextAccessor;
         }
 
-        Event IMoneyRepository.NewMoneyTransfer()
+        Event IMoneyRepository.NewMoneyTransfer(Event newEvent)
         {
-            var newEvent = _context.Events.FirstOrDefault(s => s.Status == "FirstVerificationPassed");
             if(newEvent == null)
             {
                 return null;
@@ -26,20 +25,20 @@ namespace CQRSBankSystem.Repositories
         }
         bool IMoneyRepository.DoubleVerification(Event singleEvent, MoneyTransfer newMoneyTransfer)
         {
-            var cookieString = double.Parse(_httpContextAccessor.HttpContext.Request.Cookies["Session_id"]);
+            //var cookieString = double.Parse(_httpContextAccessor.HttpContext.Request.Cookies["Session_id"]);
             var user = _context.Users.FirstOrDefault(s => s.AccountNumber == singleEvent.From);
             var receiver = _context.Users.FirstOrDefault(t => t.AccountNumber == singleEvent.To);
-            if(cookieString != user.SessionId)
-            {
-                singleEvent.Status = "cancelled";
-                singleEvent.ReasonOfCancellation = "AuthorizationFailed";
-                newMoneyTransfer.Status = "cancelled";
-                newMoneyTransfer.ReasonOfCancellation = "AuuthorizationFailed";
-                _context.MoneyTransfers.Add(newMoneyTransfer);
-                _context.Update(singleEvent);
-                _context.SaveChanges();
-                return false;
-            }
+            //if(cookieString != user.SessionId) USER DON'T HAVE TO BE LOGGED IN DURING BACKGROUND TRANSFER
+            //{
+            //    singleEvent.Status = "cancelled";
+            //    singleEvent.ReasonOfCancellation = "AuthorizationFailed";
+            //    newMoneyTransfer.Status = "cancelled";
+            //    newMoneyTransfer.ReasonOfCancellation = "AuuthorizationFailed";
+            //    _context.MoneyTransfers.Add(newMoneyTransfer);
+            //    _context.Update(singleEvent);
+            //    _context.SaveChanges();
+            //    return false;
+            //}
             if(user.Balance - singleEvent.Ammount<0)
             {
                 singleEvent.Status = "cancelled";

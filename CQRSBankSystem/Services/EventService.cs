@@ -19,7 +19,7 @@ namespace CQRSBankSystem.Services
         public void NewEvent(TypeOfOperationEnum typeOfOperation, double ammount, int to,string cookie)
         {
             //observer pattern??
-            _moneyService.NewMoneyTransfer();
+           // _moneyService.NewMoneyTransfer();
             Event newEvent = _eventRepository.AddEvent(typeOfOperation, ammount, to, cookie);
             string result = _eventRepository.DataVerification(newEvent);
             if(result != "FirstVerificationPassed")

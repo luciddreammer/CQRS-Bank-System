@@ -22,6 +22,7 @@ builder.Services.AddTransient<EventService>();
 builder.Services.AddTransient<MoneyService>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IMoneyRepository, MoneyRepository>();
+builder.Services.AddHostedService<BackgroundCheckService>();
 
 builder.Services.AddHttpContextAccessor();
 
