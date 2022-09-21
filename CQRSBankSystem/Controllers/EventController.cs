@@ -13,12 +13,10 @@ namespace CQRSBankSystem.Controllers
     public class EventController : ControllerBase
     {
         private EventService _eventService;
-        private MoneyService _moneyService;
 
-        public EventController(EventService eventService, MoneyService moneyService)
+        public EventController(EventService eventService)
         {
             _eventService = eventService;
-            _moneyService = moneyService;
         }
 
         [HttpPost("New-Money-Transfer")]

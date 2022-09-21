@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using CQRSBankSystem.Data;
+﻿using Microsoft.AspNetCore.Mvc;
 using CQRSBankSystem.Data.ViewModels;
-using Microsoft.EntityFrameworkCore.Internal;
 using CQRSBankSystem.Services;
 
 namespace CQRSBankSystem.Controllers

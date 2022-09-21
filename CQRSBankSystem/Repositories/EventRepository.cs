@@ -1,8 +1,7 @@
 ﻿using CQRSBankSystem.Data.DBContext;
+using CQRSBankSystem.Data.Dictionaires;
 using CQRSBankSystem.Data.Enums;
 using CQRSBankSystem.Data.Models;
-using CQRSBankSystem.Data.ViewModels;
-using System.Net;
 
 namespace CQRSBankSystem.Repositories
 {
@@ -17,6 +16,10 @@ namespace CQRSBankSystem.Repositories
 
         Event IEventRepository.AddEvent(TypeOfOperationEnum typeOfOperation, double ammount, int to, string cookie)
         {
+            if(_context.Users.FirstOrDefault(s => s.SessionId == double.Parse(cookie)).AccountNumber==null)
+            {
+                return null;
+            }
             Event newEvent = new Event();
             newEvent = new Event()
             {
@@ -24,7 +27,7 @@ namespace CQRSBankSystem.Repositories
                 Ammount = ammount,
                 From = _context.Users.FirstOrDefault(s => s.SessionId == double.Parse(cookie)).AccountNumber,
                 To = to,
-                Status = "new",
+                Status = StatusDictionary.Statuses["New"],
                 ReasonOfCancellation = null
             };
             _context.Events.Add(newEvent);
@@ -34,32 +37,28 @@ namespace CQRSBankSystem.Repositories
 
         string IEventRepository.DataVerification(Event singleEvent)
         {
-            string result;
             if(_context.Users.FirstOrDefault(accNumber=>accNumber.AccountNumber == singleEvent.To)==null)
             {
-                result = "No such user";
-                return result;
+                return StatusDictionary.Reasons["NoSuchUser"]; 
             }
-            if(_context.Users.FirstOrDefault(acN=>acN.AccountNumber==singleEvent.To).Balance-singleEvent.Ammount<0)
+            if(_context.Users.FirstOrDefault(acN=>acN.AccountNumber==singleEvent.From).Balance-singleEvent.Ammount<0)
             {
-                result = "Not enough money";
-                return result;
+                return StatusDictionary.Reasons["NotEnoughMoney"]; 
             }
-            result = "FirstVerificationPassed";
-            return result;
+            return StatusDictionary.Reasons["FirstVerificationPassed"];
         }
 
         void IEventRepository.CancelEvent(Event singleEvent,string reason)
         {
             singleEvent.ReasonOfCancellation = reason;
-            singleEvent.Status = "cancelled";
+            singleEvent.Status = StatusDictionary.Statuses["Cancelled"];
             _context.Update(singleEvent);
             _context.SaveChanges();
         }
 
         void IEventRepository.ConfirmEvent(Event singleEvent)
         {
-            singleEvent.Status = "FirstVerificationPassed";
+            singleEvent.Status = StatusDictionary.Statuses["Approved"];
             _context.Update(singleEvent);
             _context.SaveChanges();
         }

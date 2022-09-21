@@ -10,7 +10,5 @@
         public string Login { get; set; }
         public string Password { get; set; }
         public int AccountNumber { get; set; }
-        public double Balance { get; set; }
-        public double SessionId { get; set; }
     }
 }

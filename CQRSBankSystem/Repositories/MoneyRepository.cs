@@ -1,4 +1,5 @@
 ﻿using CQRSBankSystem.Data.DBContext;
+using CQRSBankSystem.Data.Dictionaires;
 using CQRSBankSystem.Data.Models;
 using System.Reflection.Metadata.Ecma335;
 
@@ -7,12 +8,10 @@ namespace CQRSBankSystem.Repositories
     public class MoneyRepository : IMoneyRepository
     {
         private CQRSBankSystemContext _context;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public MoneyRepository(CQRSBankSystemContext context, IHttpContextAccessor httpContextAccessor)
+        public MoneyRepository(CQRSBankSystemContext context)
         {
             _context = context;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         Event IMoneyRepository.NewMoneyTransfer(Event newEvent)
@@ -25,26 +24,14 @@ namespace CQRSBankSystem.Repositories
         }
         bool IMoneyRepository.DoubleVerification(Event singleEvent, MoneyTransfer newMoneyTransfer)
         {
-            //var cookieString = double.Parse(_httpContextAccessor.HttpContext.Request.Cookies["Session_id"]);
             var user = _context.Users.FirstOrDefault(s => s.AccountNumber == singleEvent.From);
             var receiver = _context.Users.FirstOrDefault(t => t.AccountNumber == singleEvent.To);
-            //if(cookieString != user.SessionId) USER DON'T HAVE TO BE LOGGED IN DURING BACKGROUND TRANSFER
-            //{
-            //    singleEvent.Status = "cancelled";
-            //    singleEvent.ReasonOfCancellation = "AuthorizationFailed";
-            //    newMoneyTransfer.Status = "cancelled";
-            //    newMoneyTransfer.ReasonOfCancellation = "AuuthorizationFailed";
-            //    _context.MoneyTransfers.Add(newMoneyTransfer);
-            //    _context.Update(singleEvent);
-            //    _context.SaveChanges();
-            //    return false;
-            //}
             if(user.Balance - singleEvent.Ammount<0)
             {
-                singleEvent.Status = "cancelled";
-                singleEvent.ReasonOfCancellation = "NotEnoughMoney";
-                newMoneyTransfer.Status = "cancelled";
-                newMoneyTransfer.ReasonOfCancellation = "NotEnoughMoney";
+                singleEvent.Status = StatusDictionary.Statuses["Cancelled"];
+                singleEvent.ReasonOfCancellation = StatusDictionary.Reasons["NotEnoughMoney"];
+                newMoneyTransfer.Status = StatusDictionary.Statuses["Cancelled"];
+                newMoneyTransfer.ReasonOfCancellation = StatusDictionary.Reasons["NotEnoughMoney"];
                 _context.MoneyTransfers.Add(newMoneyTransfer);
                 _context.Update(singleEvent);
                 _context.SaveChanges();
@@ -52,10 +39,10 @@ namespace CQRSBankSystem.Repositories
             }
             if(receiver == null)
             {
-                singleEvent.Status = "cancelled";
-                singleEvent.ReasonOfCancellation = "NoSuchUser(Receiver)";
-                newMoneyTransfer.Status = "cancelled";
-                newMoneyTransfer.ReasonOfCancellation = "NoSuchUser(Receiver)";
+                singleEvent.Status = StatusDictionary.Statuses["Cancelled"];
+                singleEvent.ReasonOfCancellation = StatusDictionary.Statuses["NoSuchUser"];
+                newMoneyTransfer.Status = StatusDictionary.Statuses["Cancelled"];
+                newMoneyTransfer.ReasonOfCancellation = StatusDictionary.Statuses["NoSuchUser"];
                 _context.MoneyTransfers.Add(newMoneyTransfer);
                 _context.Update(singleEvent);
                 _context.SaveChanges();
@@ -73,13 +60,12 @@ namespace CQRSBankSystem.Repositories
             _context.Update(sender);
             _context.Update(receiver);
             _context.SaveChanges();
-
         }
 
         void IMoneyRepository.StatusChange(Event singleEvent, MoneyTransfer newMoneyTransfer)
         {
-            singleEvent.Status = "Successfully";
-            newMoneyTransfer.Status = "Successfully";
+            singleEvent.Status = StatusDictionary.Statuses["TransferSuccessfull"];
+            newMoneyTransfer.Status = StatusDictionary.Statuses["TransferSuccessfull"];
             _context.Update(singleEvent);
             _context.MoneyTransfers.Add(newMoneyTransfer);
             _context.SaveChanges();

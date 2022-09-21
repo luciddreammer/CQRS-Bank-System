@@ -1,4 +1,4 @@
-﻿using CQRSBankSystem.Data.DBContext;
+﻿using CQRSBankSystem.Data.Dictionaires;
 using CQRSBankSystem.Data.Enums;
 using CQRSBankSystem.Data.Models;
 using CQRSBankSystem.Repositories;
@@ -8,21 +8,21 @@ namespace CQRSBankSystem.Services
     public class EventService
     {
         private IEventRepository _eventRepository;
-        private MoneyService _moneyService;
 
-        public EventService(IEventRepository eventRepository, IMoneyRepository moneyrepo)
+        public EventService(IEventRepository eventRepository)
         {
             _eventRepository = eventRepository;
-            _moneyService = new MoneyService(moneyrepo);
         }   
 
         public void NewEvent(TypeOfOperationEnum typeOfOperation, double ammount, int to,string cookie)
         {
-            //observer pattern??
-           // _moneyService.NewMoneyTransfer();
             Event newEvent = _eventRepository.AddEvent(typeOfOperation, ammount, to, cookie);
+            if(newEvent == null)
+            {
+                return;
+            }
             string result = _eventRepository.DataVerification(newEvent);
-            if(result != "FirstVerificationPassed")
+            if(result != StatusDictionary.Reasons["FirstVerificationPassed"])
             {
                 _eventRepository.CancelEvent(newEvent, result);
                 return;

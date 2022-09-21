@@ -23,9 +23,7 @@ builder.Services.AddTransient<MoneyService>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IMoneyRepository, MoneyRepository>();
 builder.Services.AddHostedService<BackgroundCheckService>();
-
 builder.Services.AddHttpContextAccessor();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

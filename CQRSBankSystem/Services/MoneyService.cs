@@ -14,19 +14,15 @@ namespace CQRSBankSystem.Services
             _moneyRepository = repository;  
         }
 
-        public MoneyService()
-        {
+        //public MoneyService()
+        //{
 
-        }
+        //}
 
         public void NewMoneyTransfer(Event newData)
         {
             var newEvent = _moneyRepository.NewMoneyTransfer(newData);
             var newMoneyTransfer = EventToTranfer(newEvent);
-            if (newEvent==null)
-            {
-                return;
-            }
             if (_moneyRepository.DoubleVerification(newEvent, newMoneyTransfer) == false)
             {
                 return;

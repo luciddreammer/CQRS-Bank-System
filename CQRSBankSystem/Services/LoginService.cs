@@ -28,13 +28,13 @@ namespace CQRSBankSystem.Services
         
         public void LogoutUser()
         {
-            var cookie_Id = _httpContextAccessor.HttpContext.Request.Cookies["Session_Id"];
+            var cookie_Id = _httpContextAccessor.HttpContext.Request.Cookies["Session_Id"].ToString();
             if(cookie_Id != null)
             {
-                var cookieString = cookie_Id.ToString();
                 try
                 {
                     var currentUser = _context.Users.FirstOrDefault(l => l.SessionId == double.Parse(cookie_Id));
+                    _httpContextAccessor.HttpContext.Response.Cookies.Delete("Session_Id");
                     if (currentUser != null)
                     {
                         currentUser.SessionId = 0;
@@ -46,7 +46,6 @@ namespace CQRSBankSystem.Services
                 {
                     _httpContextAccessor.HttpContext.Response.Cookies.Delete("Session_Id");
                 }
-                _httpContextAccessor.HttpContext.Response.Cookies.Delete("Session_Id");
             }
         }
 

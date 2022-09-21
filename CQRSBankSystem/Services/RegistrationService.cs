@@ -30,5 +30,32 @@ namespace CQRSBankSystem.Services
             _context.Users.Add(newUser);
             _context.SaveChanges();
         }
+        
+        private bool RegistrationVerification(UserVM userVM)
+        {
+            return true;
+        }
+
+        //MOVE IT ALL TO IREPOSITORY
+
+        bool LoginValidation(UserVM userVM)
+        {
+            return false;
+        }
+
+        bool PasswordValidation(UserVM userVM)
+        {
+            return false;
+        }
+
+        bool EmailValidation(UserVM userVM)
+        {
+            return false;
+        }
+
+        double AccountNumberGenerator()
+        {
+            return new double();
+        }
     }
 }
